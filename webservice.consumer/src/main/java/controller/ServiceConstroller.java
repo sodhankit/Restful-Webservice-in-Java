@@ -41,9 +41,9 @@ public class ServiceConstroller extends HttpServlet {
 		WebTarget target=client.target("http://localhost:8080/webservice/rest/users");
 		
 		User user=new User();
-		user.setFullName("Amit");
-		user.setEmail("amit@gmail.com");
-		user.setPassword("Amit123");
+		user.setFullName(request.getParameter("fullName"));
+		user.setEmail(request.getParameter("email"));
+		user.setPassword(request.getParameter("password"));
 		Gson gson =new Gson();
 		String userJson=gson.toJson(user);
 		
