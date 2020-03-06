@@ -57,10 +57,9 @@
 
 ### MyService.java
 
-    package webservice.service;
-    
-    @Path("/users")
-    public class MyService {
+```java
+@Path("/users")
+public class MyService {
 	
 	private UserDao dao=new UserDao();
 		
@@ -98,6 +97,7 @@
 		return "delete User";
 	}
 }
+```
 
 
 ## Restful Webservice Consumer Maven Dependency
