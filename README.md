@@ -23,7 +23,9 @@
 
 ## web.xml configuration
 
-     <servlet>  
+ 
+
+    <servlet>  
         <servlet-name>Jersey REST Service</servlet-name>  
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
         <init-param>  
@@ -52,6 +54,50 @@
 | @Consumes  | The @Consumes annotation is used to specify the MIME media types of representations a resource can consume that were sent by the client.  |
 | @Produces  |  The @Produces annotation is used to specify the MIME media types of representations a resource can produce and send back to the client: for example, "text/plain". |
 | @Provider  | The @Provider annotation is used for anything that is of interest to the JAX-RS runtime, such as MessageBodyReader and MessageBodyWriter. For HTTP requests, the MessageBodyReader is used to map an HTTP request entity body to method parameters. On the response side, a return value is mapped to an HTTP response entity body by using a MessageBodyWriter. If the application needs to supply additional metadata, such as HTTP headers or a different status code, a method can return a Response that wraps the entity and that can be built using Response.ResponseBuilder.  |
+
+### MyService.java
+
+    package webservice.service;
+    
+    @Path("/users")
+    public class MyService {
+	
+	private UserDao dao=new UserDao();
+		
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getUser() {
+		List<User> users = dao.getUsers();
+		Gson gson=new Gson();
+		String usersJson=gson.toJson(users);
+		return usersJson;
+	}
+	
+	@POST
+	@Produces(MediaType.TEXT_HTML)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String saveUser(String userJson) {
+		System.out.println(userJson);
+		Gson gson=new Gson();
+		User user=gson.fromJson(userJson, User.class);
+		String result=dao.registerUser(user);
+		return result;
+	}
+	
+	@PUT
+	@Path("/{id}")
+	@Produces("text/plain")	
+	public String updateUser(@PathParam("id") String id) {
+		return "update user";
+	}
+	
+	@DELETE
+	@Path("/{id}")
+	@Produces("text/plain")
+	public String deleteUser(@PathParam("id") String id) {
+		return "delete User";
+	}
+}
 
 
 ## Restful Webservice Consumer Maven Dependency
