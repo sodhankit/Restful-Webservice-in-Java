@@ -117,3 +117,44 @@ public class MyService {
     <version>4.5.1.Final</version>
 </dependency>
 ```
+
+## Post User Data To Web Service
+
+```java
+        Client client=ClientBuilder.newClient();
+		WebTarget target=client.target("http://localhost:8080/webservice/rest/users");
+		
+		User user=new User();
+		user.setFullName(request.getParameter("fullName"));
+		user.setEmail(request.getParameter("email"));
+		user.setPassword(request.getParameter("password"));
+		Gson gson =new Gson();
+		String userJson=gson.toJson(user);
+		
+		Response resp=target.request().post(Entity.json(userJson));
+		String result=resp.readEntity(String.class);
+		response.getWriter().append(result);
+```
+
+## Get Data From Web Service
+
+```java
+Client client=ClientBuilder.newClient();
+WebTarget target=client.target("http://localhost:8080/webservice/rest/users");
+Response resp=target.request().get();
+String result=resp.readEntity(String.class);
+Gson gson=new Gson();
+Type type = new TypeToken<List<User>>() {}.getType();
+List<User> users = gson.fromJson(result, type);
+String str="<table border='1px'>";		
+for(User user: users) {
+		str+="<tr>"
+				+"<td>"+user.getId()+"</td>"
+				+"<td>"+user.getFullName()+"</td>"
+				+"<td>"+user.getEmail()+"</td>"
+				+"</tr>";
+}
+str+="</table>";
+response.setContentType("text/html");
+response.getWriter().append(str);
+```
