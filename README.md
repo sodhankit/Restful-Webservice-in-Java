@@ -121,19 +121,17 @@ public class MyService {
 ## Post User Data To Web Service
 
 ```java
-        Client client=ClientBuilder.newClient();
-		WebTarget target=client.target("http://localhost:8080/webservice/rest/users");
-		
-		User user=new User();
-		user.setFullName(request.getParameter("fullName"));
-		user.setEmail(request.getParameter("email"));
-		user.setPassword(request.getParameter("password"));
-		Gson gson =new Gson();
-		String userJson=gson.toJson(user);
-		
-		Response resp=target.request().post(Entity.json(userJson));
-		String result=resp.readEntity(String.class);
-		response.getWriter().append(result);
+Client client=ClientBuilder.newClient();
+WebTarget target=client.target("http://localhost:8080/webservice/rest/users");
+User user=new User();
+user.setFullName(request.getParameter("fullName"));
+user.setEmail(request.getParameter("email"));
+user.setPassword(request.getParameter("password"));
+Gson gson =new Gson();
+String userJson=gson.toJson(user);
+Response resp=target.request().post(Entity.json(userJson));
+String result=resp.readEntity(String.class);
+response.getWriter().append(result);
 ```
 
 ## Get Data From Web Service
